@@ -11,7 +11,7 @@ var EditorToolbar = (function() {
     return converter;
   }
 
-  function convertToMarkdown(converter, md){
+  function convertToHTML(converter, md){
     var html = converter.makeHtml(md);
 
     html = html.replace(/<code class="js language-js">/g, '<code class="javascript language-javascript">');
@@ -35,7 +35,7 @@ var EditorToolbar = (function() {
       title: "Convert MD to HTML",
       click: function(){
         var md = $mainTextArea.val();
-        var html = convertToMarkdown(converter, md);
+        var html = convertToHTML(converter, md);
         $mainTextArea.val(html);
       }
     });

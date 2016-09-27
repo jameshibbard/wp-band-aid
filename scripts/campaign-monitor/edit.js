@@ -1,3 +1,5 @@
+"use strict";
+
 var EditView = (function() {
   var $editorPane = $("#editorPane");
   var $editorPaneBottomToolBar = $("#editorPane .overview .buttons");
@@ -42,6 +44,7 @@ var EditView = (function() {
   function attachEventHandlers(){
     $editorPane.on("click", "a[title='Source']", function(){
       $mdtohtml.toggle();
+      $("textarea.cke_source").css("resize", "vertical");
     });
   }
 
@@ -50,7 +53,7 @@ var EditView = (function() {
     // Pressing (for example) "Edit" in the preview pane
     // Will swap out the ck instance, but leave the MD > HTML button visible
     //
-    var observer = new MutationObserver(function(mutations) {
+    var observer = new MutationObserver(function() {
       if($(".cke_button_source").hasClass("cke_off")){
         $mdtohtml.hide();
       }
