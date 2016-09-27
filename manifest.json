@@ -66,6 +66,14 @@
         "scripts/campaign-monitor/edit.js"
       ],
       "run_at": "document_idle"
+    },
+    {
+      "matches": [ "https://sitepointdotcom.createsend.com/campaigns/gallery/step2/*" ],
+      "js": [
+        "lib/jquery-2.1.1.min.js",
+        "scripts/campaign-monitor/plain-text.js"
+      ],
+      "run_at": "document_idle"
     }
   ],
 
