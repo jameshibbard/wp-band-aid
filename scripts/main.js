@@ -9,6 +9,10 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       case "getDesc":
         sendResponse($('meta[name="description"]').attr("content"));
         break;
+      case "getNewsletterLink":
+        alert("ziggy");
+        sendResponse("titty");
+        break;
       default:
         sendResponse("");
     }

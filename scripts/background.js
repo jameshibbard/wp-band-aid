@@ -57,3 +57,25 @@ chrome.contextMenus.create({
   },
   'documentUrlPatterns': ["*://*.sitepoint.com/*"]
 });
+
+chrome.contextMenus.create({
+  'title': "Get newsletter link",
+  'contexts': ['link'],
+  'onclick': function (info, tab) {
+    $.get(info.linkUrl, function(data){
+      console.log(data);
+
+      var title = $(data).filter("title").text();
+      var desc = $(data).filter("meta[name='description']").attr('content');
+
+      var newsletterLink = (`<p>
+          <a href="${info.linkUrl}">${title}</a><br />
+          ${desc}
+        </p>
+      `).replace(/^        /gm, '');
+
+      copyTextToClipboard(newsletterLink);
+    });
+  },
+  'documentUrlPatterns': ["*://*.sitepoint.com/*"]
+});
