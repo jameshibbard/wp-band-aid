@@ -3,7 +3,7 @@
 
   "name": "WP Band Aid",
   "description": "This extension is for internal use at SitePoint. It makes using the WP back end a bit easier.",
-  "version": "0.13.11",
+  "version": "0.13.12",
 
   "background": {
     "scripts": [
@@ -13,20 +13,12 @@
     ]
   },
 
-  // "page_action": {
-  //   "default_icon": {
-  //     "19": "icons/19.png",
-  //     "38": "icons/38.png"
-  //   },
-  //   "default_title": "WP Band Aid"
-  // },
-
   "browser_action": {
-  "default_icon": {
-    "19": "icons/19.png",
-    "38": "icons/38.png"
-  },
-   "default_popup": "fragments/popup.html"
+    "default_icon": {
+      "19": "icons/19.png",
+      "38": "icons/38.png"
+    },
+    "default_popup": "fragments/popup.html"
   },
 
   "permissions": [
@@ -37,6 +29,24 @@
     {
       "matches": [ "*://*.sitepoint.com/*" ],
       "js": [ "lib/jquery-2.1.1.min.js", "scripts/main.js" ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "*://*.sitepoint.com/html-css/",
+        "*://*.sitepoint.com/javascript/",
+        "*://*.sitepoint.com/php/",
+        "*://*.sitepoint.com/ruby/",
+        "*://*.sitepoint.com/mobile/",
+        "*://*.sitepoint.com/design-ux/",
+        "*://*.sitepoint.com/entrepreneur/",
+        "*://*.sitepoint.com/web/",
+        "*://*.sitepoint.com/wordpress/",
+        "*://*.sitepoint.com/java/",
+        "*://*.sitepoint.com/woorank/",
+        "*://*.sitepoint.com/programming/"
+      ],
+      "js": [ "scripts/main-site/channels.js" ],
       "run_at": "document_idle"
     },
     {

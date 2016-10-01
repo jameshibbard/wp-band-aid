@@ -63,8 +63,6 @@ chrome.contextMenus.create({
   'contexts': ['link'],
   'onclick': function (info, tab) {
     $.get(info.linkUrl, function(data){
-      console.log(data);
-
       var title = $(data).filter("title").text();
       var desc = $(data).filter("meta[name='description']").attr('content');
 

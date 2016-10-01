@@ -33,4 +33,3 @@ $fetchPostsButton.on("click", function() {
     $fetchPostsButton.prop("disabled", false)
   })
 });
-
