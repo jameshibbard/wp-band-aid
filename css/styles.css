@@ -190,3 +190,10 @@
 .bandaid-copy-link {
   margin-left: 4px !important;
 }
+
+.parsely-link-block{
+  line-height: 1.6;
+  font-size: .875rem;
+  position: relative;
+  top: 8px;
+}
