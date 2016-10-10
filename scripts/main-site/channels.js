@@ -20,6 +20,10 @@ const MainChannels = (function() {
   const $infiniteScrollTrigger = $("#Latest_infiniteScrollTrigger").prev();
 
   let API_KEY, SECRET_TOKEN;
+  chrome.storage.sync.get(['parselyAPIKey','parselySecret'], function(items){
+    API_KEY = items.parselyAPIKey;
+    SECRET_TOKEN = items.parselySecret;
+  });
 
   let $toggleElementsLink, $linksTemplate;
 
@@ -106,7 +110,7 @@ const MainChannels = (function() {
       const days = moment().diff(moment(publishedOn), "days") + 1;
 
       $.getJSON(buildApiUrl(postUrl, days), function(json){
-        const hits = json.data[0]._hits
+        const hits = json.data[0]._hits;
         $link.text(`${hits} views in ${days} days`).fadeIn();
       });
     });

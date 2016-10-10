@@ -3,7 +3,7 @@
 
   "name": "WP Band Aid",
   "description": "This extension is for internal use at SitePoint. It makes using the WP back end a bit easier.",
-  "version": "0.13.13",
+  "version": "0.13.14",
 
   "background": {
     "scripts": [
@@ -25,6 +25,7 @@
     "contextMenus",
     "activeTab",
     "tabs",
+    "storage",
     "https://api.parsely.com/"
   ],
 
