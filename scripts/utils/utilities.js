@@ -53,7 +53,6 @@ function getHtmlFromElements(parentElement) {
   return $(holder).html();
 }
 
-
 /**
  * Fetches template contents
  * @param fileName
