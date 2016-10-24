@@ -1,3 +1,5 @@
+"use strict";
+
 // Responds to context menu options
 //
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
