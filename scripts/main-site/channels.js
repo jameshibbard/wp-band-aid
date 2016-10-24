@@ -145,7 +145,7 @@ const Channel = (function() {
 
   function attachLinkTemplate(){
     $articlePannels.each(function(){
-      var hasParselyLinks = $(this).find("div.parsely-link-block").length;
+      var hasParselyLinks = $(this).find("span.parsely-link-block").length;
 
       if(!hasParselyLinks){
         const postUrl = $(this).closest(".HomePanel").attr("href");

@@ -4,6 +4,8 @@ const EditorToolbar = (function() {
   const $editorToolbar = $("#ed_toolbar");
   const $mainTextArea = $("#content");
   const converter = getShowdownConverter();
+  const beautifier = getBeautifier();
+
   let $convertButton, $ToCButton;
 
   function getShowdownConverter(){
@@ -14,6 +16,19 @@ const EditorToolbar = (function() {
     converter.setOption('literalMidWordUnderscores', true);
     converter.setOption('tables', true);
     return converter;
+  }
+
+  function getBeautifier(){
+    const options = {
+      "preserve_newlines": true,
+      "indent_size": 2,
+      "wrap_line_length": 0
+    };
+    return {
+      beautify: function(html) {
+        return html_beautify(html, options);
+      }
+    }
   }
 
   function convertToHTML(converter, md){
@@ -54,10 +69,14 @@ const EditorToolbar = (function() {
 
     matches.forEach(function(match){
       const id = /id="(.*?)"/.exec(match)[1];
-      $toc.append(`<li><a href="#${id}">${match[2]}</a></li>`);
+      $toc.append(`
+      <li class="toc-${match[1]}">
+        <a href="#${id}">${match[2]}</a>
+      </li>`);
     });
 
-    $mainTextArea.val($toc.prop('outerHTML') + content);
+    $toc = beautifier.beautify($toc.prop('outerHTML'));
+    $mainTextArea.val($toc + "\n\n" + content);
   }
 
   function addToCButton(){
