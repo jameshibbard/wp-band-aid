@@ -16,3 +16,12 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     }
   }
 });
+
+const isArticle = $("meta[property='og:type']").attr('content') === "article";
+const isCategory = $(".ChannelBanner").length;
+
+if(isArticle){
+  Article.init();
+} else if(isCategory){
+  Channel.init();
+}

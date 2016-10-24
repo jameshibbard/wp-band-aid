@@ -1,6 +1,6 @@
 /* Hide WordPress update nag box and W3 Total Cache banner */
-#edge-mode, div.update-nag{
-  display: none;
+#edge-mode, div.update-nag, #carbonads{
+  display: none !important;
 }
 
 .wp-editor-area.error {
@@ -191,9 +191,15 @@
   margin-left: 4px !important;
 }
 
-.parsely-link-block{
+.parsely-link-block.channel{
   line-height: 1.6;
   font-size: .875rem;
   position: relative;
   top: 8px;
+}
+
+#link-container {
+  position: relative;
+  top: 30px;
+  left: 5px;
 }

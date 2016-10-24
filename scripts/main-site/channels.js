@@ -105,7 +105,7 @@ const Channel = (function() {
 
       $.getJSON(buildApiUrl(postUrl, days), function(json){
         const hits = json.data[0]._hits;
-        $link.text(`${hits} views in ${days} days`).fadeIn();
+        $link.replaceWith(`${hits} views in ${days} days`);
       });
     });
   }
@@ -152,6 +152,7 @@ const Channel = (function() {
         const parselyUrl = 'https://dash.parsely.com/sitepoint.com/find?url=' +
                             encodeURIComponent(postUrl);
 
+        $(".parsely-link-block").addClass("channel");
         $(this).append(linksTemplate);
         $(this).find("a.open-parsely").attr("href", parselyUrl);
       }

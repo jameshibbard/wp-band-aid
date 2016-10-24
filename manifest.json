@@ -3,7 +3,7 @@
 
   "name": "WP Band Aid",
   "description": "This extension is for internal use at SitePoint. It makes using the WP back end a bit easier.",
-  "version": "0.13.15",
+  "version": "0.13.16",
 
   "background": {
     "scripts": [
@@ -32,25 +32,14 @@
   "content_scripts": [
     {
       "matches": [ "*://*.sitepoint.com/*" ],
-      "js": [ "lib/jquery-2.1.1.min.js", "scripts/main.js" ],
-      "run_at": "document_idle"
-    },
-    {
-      "matches": [
-        "*://*.sitepoint.com/html-css/",
-        "*://*.sitepoint.com/javascript/",
-        "*://*.sitepoint.com/php/",
-        "*://*.sitepoint.com/ruby/",
-        "*://*.sitepoint.com/mobile/",
-        "*://*.sitepoint.com/design-ux/",
-        "*://*.sitepoint.com/entrepreneur/",
-        "*://*.sitepoint.com/web/",
-        "*://*.sitepoint.com/wordpress/",
-        "*://*.sitepoint.com/java/",
-        "*://*.sitepoint.com/woorank/",
-        "*://*.sitepoint.com/programming/"
+      "js": [
+        "lib/jquery-2.1.1.min.js",
+        "scripts/utils/utilities.js",
+        "lib/moment.min.js",
+        "scripts/main-site/article.js",
+        "scripts/main-site/channels.js",
+        "scripts/main.js"
       ],
-      "js": [ "scripts/utils/utilities.js", "scripts/main-site/channels.js", "lib/moment.min.js" ],
       "css": [ "css/styles.css" ],
       "run_at": "document_idle"
     },
@@ -67,7 +56,6 @@
         "lib/handlebars-4.0.5.min.js",
         "scripts/utils/capitalize.js",
         "scripts/utils/modal.js",
-        "scripts/utils/utilities.js",
         "scripts/wordpress/modules/editorToolbar.js",
         "scripts/wordpress/modules/titleArea.js",
         "scripts/wordpress/modules/editorPane.js",
@@ -108,6 +96,7 @@
 
   "options_page": "fancy-settings/source/index.html",
   "web_accessible_resources": [
-    "fragments/*"
+    "fragments/*",
+    "scripts/main-site/article.js"
   ]
 }
