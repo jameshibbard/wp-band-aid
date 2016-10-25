@@ -61,24 +61,22 @@ const EditorToolbar = (function() {
 
   function makeToc(){
     // From titleArea.js
-
-    const rx     = /<(h[2-6]).+>(.+)<\/\1>/ig;
-    let content  = $mainTextArea.val();
-    let matches  = getAllMatches(rx, content);
-    let headings = matches.map(match => {
+    const rx       = /<(h[2-6]).+>(.+)<\/\1>/ig;
+    const content  = $mainTextArea.val();
+    const matches  = getAllMatches(rx, content);
+    const headings = matches.map(match => {
       return {
         level: match[1],
         title: match[2],
         slug: /id="(.*?)"/.exec(match)[1]
-      }
+      };
     });
 
     getTemplate("toc.hbs")
       .then(tpl => {
-        let template = Handlebars.compile(tpl);
-        let html = template({ headings });
+        const template = Handlebars.compile(tpl);
+        const html = template({ headings });
 
-        // let $toc = beautifier.beautify($toc.prop('outerHTML'));
         $mainTextArea.val(html + "\n\n" + content);
       });
   }
