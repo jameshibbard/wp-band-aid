@@ -4,7 +4,6 @@ const EditorToolbar = (function() {
   const $editorToolbar = $("#ed_toolbar");
   const $mainTextArea = $("#content");
   const converter = getShowdownConverter();
-  const beautifier = getBeautifier();
 
   let $convertButton, $ToCButton;
 
@@ -16,19 +15,6 @@ const EditorToolbar = (function() {
     converter.setOption('literalMidWordUnderscores', true);
     converter.setOption('tables', true);
     return converter;
-  }
-
-  function getBeautifier(){
-    const options = {
-      "preserve_newlines": true,
-      "indent_size": 2,
-      "wrap_line_length": 0
-    };
-    return {
-      beautify: function(html) {
-        return html_beautify(html, options);
-      }
-    }
   }
 
   function convertToHTML(converter, md){
@@ -61,22 +47,24 @@ const EditorToolbar = (function() {
 
   function makeToc(){
     // From titleArea.js
-
-    const rx = /<(h[2-6]).+>(.+)<\/\1>/ig;
-    let content = $mainTextArea.val();
-    let matches = getAllMatches(rx, content);
-    let $toc = $("<ul />", {class: "toc"});
-
-    matches.forEach(function(match){
-      const id = /id="(.*?)"/.exec(match)[1];
-      $toc.append(`
-      <li class="toc-${match[1]}">
-        <a href="#${id}">${match[2]}</a>
-      </li>`);
+    const rx       = /<(h[2-6]).+>(.+)<\/\1>/ig;
+    const content  = $mainTextArea.val();
+    const matches  = getAllMatches(rx, content);
+    const headings = matches.map(match => {
+      return {
+        level: match[1],
+        title: match[2],
+        slug: /id="(.*?)"/.exec(match)[1]
+      };
     });
 
-    $toc = beautifier.beautify($toc.prop('outerHTML'));
-    $mainTextArea.val($toc + "\n\n" + content);
+    getTemplate("toc.hbs")
+      .then(tpl => {
+        const template = Handlebars.compile(tpl);
+        const html = template({ headings });
+
+        $mainTextArea.val(html + "\n\n" + content);
+      });
   }
 
   function addToCButton(){
