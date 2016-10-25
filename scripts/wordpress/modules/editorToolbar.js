@@ -62,21 +62,25 @@ const EditorToolbar = (function() {
   function makeToc(){
     // From titleArea.js
 
-    const rx = /<(h[2-6]).+>(.+)<\/\1>/ig;
-    let content = $mainTextArea.val();
-    let matches = getAllMatches(rx, content);
-    let $toc = $("<ul />", {class: "toc"});
-
-    matches.forEach(function(match){
-      const id = /id="(.*?)"/.exec(match)[1];
-      $toc.append(`
-      <li class="toc-${match[1]}">
-        <a href="#${id}">${match[2]}</a>
-      </li>`);
+    const rx     = /<(h[2-6]).+>(.+)<\/\1>/ig;
+    let content  = $mainTextArea.val();
+    let matches  = getAllMatches(rx, content);
+    let headings = matches.map(match => {
+      return {
+        level: match[1],
+        title: match[2],
+        slug: /id="(.*?)"/.exec(match)[1]
+      }
     });
 
-    $toc = beautifier.beautify($toc.prop('outerHTML'));
-    $mainTextArea.val($toc + "\n\n" + content);
+    getTemplate("toc.hbs")
+      .then(tpl => {
+        let template = Handlebars.compile(tpl);
+        let html = template({ headings });
+
+        // let $toc = beautifier.beautify($toc.prop('outerHTML'));
+        $mainTextArea.val(html + "\n\n" + content);
+      });
   }
 
   function addToCButton(){
