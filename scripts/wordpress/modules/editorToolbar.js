@@ -4,7 +4,6 @@ const EditorToolbar = (function() {
   const $editorToolbar = $("#ed_toolbar");
   const $mainTextArea = $("#content");
   const converter = getShowdownConverter();
-  const beautifier = getBeautifier();
 
   let $convertButton, $ToCButton;
 
@@ -16,19 +15,6 @@ const EditorToolbar = (function() {
     converter.setOption('literalMidWordUnderscores', true);
     converter.setOption('tables', true);
     return converter;
-  }
-
-  function getBeautifier(){
-    const options = {
-      "preserve_newlines": true,
-      "indent_size": 2,
-      "wrap_line_length": 0
-    };
-    return {
-      beautify: function(html) {
-        return html_beautify(html, options);
-      }
-    }
   }
 
   function convertToHTML(converter, md){
