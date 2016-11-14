@@ -56,10 +56,10 @@ function getHtmlFromElements(parentElement) {
 /**
  * Fetches template contents
  * @param fileName
- * @returns {Deferred object}
+ * @returns {Promise<string>}
  * http://stackoverflow.com/a/14220323
  */
 function getTemplate(fileName){
   var templateURL = chrome.runtime.getURL(`/fragments/${fileName}`);
-  return $.get(templateURL);
+  return fetch(templateURL).then(response => response.text());
 }
