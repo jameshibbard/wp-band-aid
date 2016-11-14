@@ -86,18 +86,16 @@ const Article = (function() {
   }
 
   function displayTotalHits(postUrl, $link){
-    $.get(postUrl, function(data){
-      const publishedOn = $(data).filter("meta[property='article:published_time']").attr('content');
-      const days = moment().diff(moment(publishedOn), "days") + 1;
+    const publishedOn = $("meta[property='article:published_time']").attr('content');
+    const days = moment().diff(moment(publishedOn), "days") + 1;
 
-      $.getJSON(buildApiUrl(postUrl, days), function(json){
-        if (json.data){
-          const hits = json.data[0]._hits;
-          $link.replaceWith(`${hits} views in ${days} days`);
-        } else {
-          $link.replaceWith("Error :(");
-        }
-      });
+    $.getJSON(buildApiUrl(postUrl, days), function(json){
+      if (json.data){
+        const hits = json.data[0]._hits;
+        $link.replaceWith(`${hits} views in ${days} days`);
+      } else {
+        $link.replaceWith("Error :(");
+      }
     });
   }
 
@@ -105,8 +103,9 @@ const Article = (function() {
     $(document).on("click", ".get-total-views", function(e){
       e.preventDefault();
 
+      const postUrl = window.location.origin + window.location.pathname;
       $(this).text("fetching ...").fadeIn(1000);
-      displayTotalHits(document.URL, $(this));
+      displayTotalHits(postUrl, $(this));
     });
   }
 
