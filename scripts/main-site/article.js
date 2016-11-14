@@ -91,8 +91,12 @@ const Article = (function() {
       const days = moment().diff(moment(publishedOn), "days") + 1;
 
       $.getJSON(buildApiUrl(postUrl, days), function(json){
-        const hits = json.data[0]._hits;
-        $link.replaceWith(`${hits} views in ${days} days`);
+        if (json.data){
+          const hits = json.data[0]._hits;
+          $link.replaceWith(`${hits} views in ${days} days`);
+        } else {
+          $link.replaceWith("Error :(");
+        }
       });
     });
   }

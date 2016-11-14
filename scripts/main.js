@@ -17,7 +17,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
   }
 });
 
-const isArticle = $("meta[property='og:type']").attr('content') === "article";
+const isArticle = $("meta[property='article:section']").length;
 const isCategory = $(".ChannelBanner").length;
 
 if(isArticle){
