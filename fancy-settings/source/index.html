@@ -17,16 +17,21 @@
   <body>
     <h1>This is the settings page (such as it is)</h1>
 
+    <p>Set SitePoint Channel:</p>
+    <div>
+      <select id="sitepointChannel"></select>
+    </div>
+
     <p>Parsely API Key: <span id="api-key-status"></span></p>
     <div>
       <input type="text" placeholder="Enter new API Key" id="parselyAPIKey"/>
-      <button>Save</button>
+      <button class="parsleyAPISettings">Save</button>
     </div>
 
     <p>Parsely Secret Token: <span id="secret-token-status"></span></p>
     <div>
       <input type="text" placeholder="Enter new Secret Token" id="parselySecret"/>
-      <button>Save</button>
+      <button class="parsleyAPISettings">Save</button>
     </div>
 
     <script src="../../lib/jquery-2.1.1.min.js"></script>
