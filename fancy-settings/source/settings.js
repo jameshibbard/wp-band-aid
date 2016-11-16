@@ -53,6 +53,5 @@ $("#sitepointChannel").change(function() {
   });
 });
 
-
 renderChannelOptions();
 fetchParselyCreds();

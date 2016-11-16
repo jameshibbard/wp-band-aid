@@ -25,11 +25,27 @@ function processJSON(json){
   return htmlString;
 }
 
+function fetchRecentChannelPosts(channel) {
+  const url = `https://www.sitepoint.com/wp-admin/admin-ajax.php?action=sp_api_posts&offset=0&per_page=24&category=${channel}`;
+  return fetch(url).then(response => response.json());
+}
+
 $fetchPostsButton.on("click", function() {
-  $(this).prop("disabled", true)
-  $.getJSON("https://www.sitepoint.com/wp-admin/admin-ajax.php?action=sp_api_posts&offset=0&per_page=24&category=javascript", function(json){
-    var text = processJSON(json);
-    copyTextToClipboard(text);
-    $fetchPostsButton.prop("disabled", false)
-  })
+  chrome.storage.sync.get(['sitepointChannel'], function(items) {
+
+    const channel = items.sitepointChannel;
+
+    if (channel === 'none') {
+      copyTextToClipboard("Please set a channel in the extension options.");
+      return;
+    }
+
+    $(this).prop("disabled", true)
+    fetchRecentChannelPosts(channel)
+      .then(json => {
+        var text = processJSON(json);
+        copyTextToClipboard(text);
+        $fetchPostsButton.prop("disabled", false);
+      });
+  });
 });
