@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
 
-  "name": "WP Band Aid",
-  "description": "This extension is for internal use at SitePoint. It makes using the WP back end a bit easier.",
-  "version": "0.13.19",
+  "name": "SP Tools",
+  "description": "This extension is for internal use at SitePoint.",
+  "version": "0.13.21",
 
   "background": {
     "scripts": [
