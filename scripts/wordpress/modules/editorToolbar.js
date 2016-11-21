@@ -81,6 +81,7 @@ const EditorToolbar = (function() {
 
   function getBeautifier(){
     const options = {
+      "indent_size": 2,
       "preserve_newlines": false,
       "wrap_line_length": 0
     };
@@ -105,7 +106,6 @@ const EditorToolbar = (function() {
     });
     $editorToolbar.append($beautifyButton);
   }
-
 
   function init(){
     addMDButton();
