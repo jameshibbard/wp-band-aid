@@ -98,8 +98,8 @@ const EditorToolbar = (function() {
       id: "bandaid-beautify",
       title: "Beautify HTML",
       click: () => {
-        var html = $mainTextArea.val();
-        var beautifulHtml = beautifier(html);
+        const html = $mainTextArea.val();
+        const beautifulHtml = beautifier(html);
         $mainTextArea.val(beautifulHtml);
       }
     });
@@ -110,7 +110,7 @@ const EditorToolbar = (function() {
   function init(){
     addMDButton();
     addToCButton();
-    addBeautyButton($editorToolbar, $mainTextArea)
+    addBeautyButton($editorToolbar, $mainTextArea);
   }
 
   return {
