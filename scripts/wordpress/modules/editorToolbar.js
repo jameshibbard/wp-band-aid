@@ -79,9 +79,38 @@ const EditorToolbar = (function() {
     $editorToolbar.append($ToCButton);
   }
 
+  function getBeautifier(){
+    const options = {
+      "preserve_newlines": false,
+      "wrap_line_length": 0
+    };
+    return function beautify(html) {
+      return html_beautify(html, options);
+    }
+  }
+
+  function addBeautyButton($editorToolbar, $mainTextArea) {
+    const beautifier = getBeautifier();
+    const $beautifyButton = $("<input />", {
+      type: "button",
+      value: "Beautify",
+      class: "ed_button button button-small",
+      id: "bandaid-beautify",
+      title: "Beautify HTML",
+      click: () => {
+        var html = $mainTextArea.val();
+        var beautifulHtml = beautifier(html);
+        $mainTextArea.val(beautifulHtml);
+      }
+    });
+    $editorToolbar.append($beautifyButton);
+  }
+
+
   function init(){
     addMDButton();
     addToCButton();
+    addBeautyButton($editorToolbar, $mainTextArea)
   }
 
   return {
