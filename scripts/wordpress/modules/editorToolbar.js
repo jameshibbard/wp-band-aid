@@ -1,13 +1,13 @@
-"use strict";
+/* exported EditorToolbar */
+/* global showdown, getAllMatches, getTemplate, Handlebars, html_beautify */
 
-const EditorToolbar = (function() {
-  const $editorToolbar = $("#ed_toolbar");
-  const $mainTextArea = $("#content");
-  const converter = getShowdownConverter();
+'use strict';
 
-  let $convertButton, $ToCButton;
+const EditorToolbar = (function EditorToolbar() {
+  const $editorToolbar = $('#ed_toolbar');
+  const $mainTextArea = $('#content');
 
-  function getShowdownConverter(){
+  function getShowdownConverter() {
     const converter = new showdown.Converter();
 
     // Don't convert underscores in URLs
@@ -17,7 +17,7 @@ const EditorToolbar = (function() {
     return converter;
   }
 
-  function convertToHTML(converter, md){
+  function convertToHTML(converter, md) {
     let html = converter.makeHtml(md);
 
     html = html.replace(/<code class="js language-js">/g, '<code class="javascript language-javascript">');
@@ -29,91 +29,90 @@ const EditorToolbar = (function() {
     return html;
   }
 
-  function addMDButton(){
-    $convertButton = $("<input />", {
-      type: "button",
-      value: "MD",
-      class: "ed_button button button-small",
-      id: "bandaid-md",
-      title: "Convert MD to HTML",
-      click: function(){
+  function addMDButton() {
+    const mdConverter = getShowdownConverter();
+    const $convertButton = $('<input />', {
+      type: 'button',
+      value: 'MD',
+      class: 'ed_button button button-small',
+      id: 'bandaid-md',
+      title: 'Convert MD to HTML',
+      click() {
         const md = $mainTextArea.val();
-        const html = convertToHTML(converter, md);
+        const html = convertToHTML(mdConverter, md);
         $mainTextArea.val(html);
-      }
+      },
     });
     $editorToolbar.append($convertButton);
   }
 
-  function makeToc(){
+  function makeToc() {
     // From titleArea.js
-    const rx       = /<(h[2-6]).+>(.+)<\/\1>/ig;
-    const content  = $mainTextArea.val();
-    const matches  = getAllMatches(rx, content);
-    const headings = matches.map(match => {
-      return {
-        level: match[1],
-        title: match[2],
-        slug: /id="(.*?)"/.exec(match)[1]
-      };
-    });
+    const rx = /<(h[2-6]).+>(.+)<\/\1>/ig;
+    const content = $mainTextArea.val();
+    const matches = getAllMatches(rx, content);
+    const headings = matches.map(match => ({
+      level: match[1],
+      title: match[2],
+      slug: /id="(.*?)"/.exec(match)[1],
+    }));
 
-    getTemplate("toc.hbs")
-      .then(tpl => {
+    getTemplate('toc.hbs')
+      .then((tpl) => {
         const template = Handlebars.compile(tpl);
         const html = template({ headings });
 
-        $mainTextArea.val(html + "\n\n" + content);
+        $mainTextArea.val(`${html}\n\n${content}`);
       });
   }
 
-  function addToCButton(){
-    $ToCButton = $("<input />", {
-      type: "button",
-      value: "ToC",
-      class: "ed_button button button-small",
-      id: "bandaid-toc",
-      title: "Insert a Table of Contents",
-      click: makeToc
+  function addToCButton() {
+    const $ToCButton = $('<input />', {
+      type: 'button',
+      value: 'ToC',
+      class: 'ed_button button button-small',
+      id: 'bandaid-toc',
+      title: 'Insert a Table of Contents',
+      click: makeToc,
     });
     $editorToolbar.append($ToCButton);
   }
 
-  function getBeautifier(){
+  function getBeautifier() {
     const options = {
-      "indent_size": 2,
-      "preserve_newlines": false,
-      "wrap_line_length": 0
+      indent_size: 2,
+      preserve_newlines: false,
+      wrap_line_length: 0,
     };
     return function beautify(html) {
       return html_beautify(html, options);
-    }
+    };
   }
 
-  function addBeautyButton($editorToolbar, $mainTextArea) {
+  function addBeautyButton() {
     const beautifier = getBeautifier();
-    const $beautifyButton = $("<input />", {
-      type: "button",
-      value: "Beautify",
-      class: "ed_button button button-small",
-      id: "bandaid-beautify",
-      title: "Beautify HTML",
+    const $beautifyButton = $('<input />', {
+      type: 'button',
+      value: 'Beautify',
+      class: 'ed_button button button-small',
+      id: 'bandaid-beautify',
+      title: 'Beautify HTML',
       click: () => {
         const html = $mainTextArea.val();
         const beautifulHtml = beautifier(html);
         $mainTextArea.val(beautifulHtml);
-      }
+      },
     });
     $editorToolbar.append($beautifyButton);
   }
 
-  function init(){
+  function init() {
     addMDButton();
     addToCButton();
-    addBeautyButton($editorToolbar, $mainTextArea);
+    addBeautyButton();
   }
 
   return {
-    init: init
+    init,
   };
-})();
+}());
