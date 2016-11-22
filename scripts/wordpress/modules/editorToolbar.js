@@ -57,12 +57,17 @@ const EditorToolbar = (function EditorToolbar() {
       slug: /id="(.*?)"/.exec(match)[1],
     }));
 
+    // http://stackoverflow.com/q/11076975/1136887
+    const cursorPos = $mainTextArea.prop('selectionStart');
+    const textBefore = content.substring(0, cursorPos);
+    const textAfter = content.substring(cursorPos, content.length);
+
     getTemplate('toc.hbs')
       .then((tpl) => {
         const template = Handlebars.compile(tpl);
-        const html = template({ headings });
+        const toc = template({ headings });
 
-        $mainTextArea.val(`${html}\n\n${content}`);
+        $mainTextArea.val(`${textBefore}${toc}${textAfter}`);
       });
   }
 
@@ -107,8 +112,8 @@ const EditorToolbar = (function EditorToolbar() {
   }
 
   function init() {
-    addMDButton();
     addToCButton();
+    addMDButton();
     addBeautyButton();
   }
 
