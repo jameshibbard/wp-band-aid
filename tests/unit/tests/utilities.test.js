@@ -3,7 +3,7 @@
 const assert = require('chai').assert;
 const include = require('../helpers').include;
 
-include('../../scripts/utils/utilities.js');
+include('scripts/utils/utilities.js');
 
 /* global getAllMatches */
 describe('getAllMatches', () => {
