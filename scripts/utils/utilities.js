@@ -63,3 +63,30 @@ function getTemplate(fileName){
   var templateURL = chrome.runtime.getURL(`/fragments/${fileName}`);
   return fetch(templateURL).then(response => response.text());
 }
+
+function insertAt(content, newString, position = 0) {
+  const textBefore = content.substring(0, position);
+  const textAfter = content.substring(position, content.length);
+
+  return `${textBefore}${newString}${textAfter}`;
+}
+
+function getMatchingElements(html, pattern) {
+  const matches = getAllMatches(pattern, html);
+  return matches.map((match) => {
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = match[0];
+    return wrapper.firstChild;
+  });
+}
+
+function getAllHeadings(html) {
+  const rx = /<(h[2-6]).+>(.+)<\/\1>/ig;
+  const elems = getMatchingElements(html, rx);
+
+  return elems.map(el => ({
+    level: el.tagName.toLowerCase(),
+    title: el.textContent,
+    slug: el.id
+  }));
+}

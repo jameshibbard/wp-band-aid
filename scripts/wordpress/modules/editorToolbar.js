@@ -1,5 +1,5 @@
 /* exported EditorToolbar */
-/* global showdown, getAllMatches, getTemplate, Handlebars, html_beautify */
+/* global showdown, getAllHeadings, getTemplate, Handlebars, html_beautify, insertAt */
 
 'use strict';
 
@@ -46,41 +46,28 @@ const EditorToolbar = (function EditorToolbar() {
     $editorToolbar.append($convertButton);
   }
 
-  function makeToc() {
-    // From titleArea.js
-    const rx = /<(h[2-6]).+>(.+)<\/\1>/ig;
-    const content = $mainTextArea.val();
-    const matches = getAllMatches(rx, content);
-    const headings = matches.map(match => ({
-      level: match[1],
-      title: match[2],
-      slug: /id="(.*?)"/.exec(match)[1],
-    }));
-
-    // http://stackoverflow.com/q/11076975/1136887
-    const cursorPos = $mainTextArea.prop('selectionStart');
-    const textBefore = content.substring(0, cursorPos);
-    const textAfter = content.substring(cursorPos, content.length);
-
+  function addToCButton() {
     getTemplate('toc.hbs')
       .then((tpl) => {
-        const template = Handlebars.compile(tpl);
-        const toc = template({ headings });
+        const renderToc = Handlebars.compile(tpl);
 
-        $mainTextArea.val(`${textBefore}${toc}${textAfter}`);
+        $('<input />', {
+          id: 'sp-tools-toc',
+          type: 'button',
+          value: 'ToC',
+          class: 'ed_button button button-small',
+          title: 'Insert a Table of Contents',
+          click: () => {
+            const html = $mainTextArea.val();
+            const headings = getAllHeadings(html);
+            const toc = renderToc({ headings });
+            const cursorPosition = $mainTextArea.prop('selectionStart');
+
+            $mainTextArea.val(insertAt(html, toc, cursorPosition));
+          },
+        })
+        .appendTo($editorToolbar);
       });
-  }
-
-  function addToCButton() {
-    const $ToCButton = $('<input />', {
-      type: 'button',
-      value: 'ToC',
-      class: 'ed_button button button-small',
-      id: 'bandaid-toc',
-      title: 'Insert a Table of Contents',
-      click: makeToc,
-    });
-    $editorToolbar.append($ToCButton);
   }
 
   function getBeautifier() {
@@ -111,13 +98,11 @@ const EditorToolbar = (function EditorToolbar() {
     $editorToolbar.append($beautifyButton);
   }
 
-  function init() {
-    addToCButton();
-    addMDButton();
-    addBeautyButton();
-  }
-
   return {
-    init,
+    init() {
+      addToCButton();
+      addMDButton();
+      addBeautyButton();
+    }
   };
 }());
