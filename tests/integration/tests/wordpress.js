@@ -1,6 +1,6 @@
 // java -jar selenium-server-standalone-2.53.1.jar
 // nightwatch --test tests/wordpress.js
-var credentials = require('../creds.js');
+var credentials = require('../../../../creds.js');
 
 // Login to WP Dashboard
 // Assert that W3-Total Cache banner is not present

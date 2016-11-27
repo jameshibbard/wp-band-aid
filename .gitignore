@@ -42,5 +42,4 @@ package.json
 node_modules/
 
 # Tests
-tests/integration/creds.js
 tests/integration/reports/
